@@ -8,6 +8,12 @@ startBtn.addEventListener("click", () => {
   gameLogic.startGame(Player(p1Name, "X"), Player(p2Name, "O"));
 });
 
+resetBtn.addEventListener("click", () => {
+  gameBoard.clearTiles();
+  gameLogic.resetGame();
+  renderer.renderScreen(gameBoard.getTiles());
+});
+
 const grids = document.querySelectorAll(".grid");
 grids.forEach((grid) =>
   grid.addEventListener("click", (e) => {
@@ -112,6 +118,7 @@ const gameLogic = (() => {
 
   const resetGame = () => {
     _currentPlayer = playerOne;
+    roundCount = 1;
   };
 
   const startNextRound = () => {
