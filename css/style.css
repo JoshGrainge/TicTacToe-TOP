@@ -1,3 +1,20 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+
+  --button-main-color: #68aaff;
+  --button-secondary-color: #fff;
+
+  --button-main-color-hover: #4e96f5;
+
+  --button-main-color-click: #3673c4;
+
+  --main-background: #ececec;
+}
+
+body {
+  background-color: var(--main-background);
+}
+
 /* Header section */
 
 header {
@@ -5,6 +22,58 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  gap: 25px;
+
+  margin-bottom: 25px;
+}
+
+.player-section {
+  width: 500px;
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.player-section input {
+  height: 25px;
+  border-radius: 5px;
+  border: 0;
+  padding: 5px;
+}
+
+.player-one,
+.player-two {
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  gap: 30px;
+}
+
+button {
+  width: 100px;
+  height: 50px;
+
+  border-radius: 25px;
+  border: 0;
+
+  background-color: var(--button-main-color);
+  color: var(--button-secondary-color);
+
+  font-size: 1.2rem;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--button-main-color-hover);
+}
+
+button:active {
+  background-color: var(--button-main-color-click);
 }
 
 /* Grid section */
@@ -20,4 +89,5 @@ header {
 
 .grid {
   background-color: gray;
+  text-align: center;
 }
