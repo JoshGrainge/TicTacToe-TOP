@@ -18,7 +18,7 @@ const grids = document.querySelectorAll(".grid");
 grids.forEach((grid) =>
   grid.addEventListener("click", (e) => {
     let index = parseInt(e.target.dataset.index);
-    if (gameBoard.isTileEmpty(index)) {
+    if (gameBoard.isTileEmpty(index) && !gameLogic.isGameOver()) {
       gameBoard.markTile(index, gameLogic.getCurrentPlayerMarker());
       gameLogic.startNextRound();
       renderer.renderScreen(gameBoard.getTiles());
@@ -66,6 +66,8 @@ const gameLogic = (() => {
 
   let roundCount = 1;
   const maxRounds = 9;
+
+  let _gameOver = false;
 
   const _alternatePlayers = () => {
     _currentPlayer = _currentPlayer === playerOne ? playerTwo : playerOne;
@@ -119,17 +121,21 @@ const gameLogic = (() => {
   const resetGame = () => {
     _currentPlayer = playerOne;
     roundCount = 1;
+
+    _gameOver = false;
   };
 
   const startNextRound = () => {
     // No more spaces, noone wins
     if (roundCount++ >= maxRounds) {
       _displayWinScreen("No one wins");
+      _gameOver = true;
     }
 
     // Checks to see if either current player has won
     if (_checkWinCondition()) {
       _displayWinScreen(`${_currentPlayer.getName()} WINS`);
+      _gameOver = true;
     }
 
     _alternatePlayers();
@@ -139,7 +145,17 @@ const gameLogic = (() => {
     return _currentPlayer.getMarker();
   };
 
-  return { startGame, resetGame, startNextRound, getCurrentPlayerMarker };
+  const isGameOver = () => {
+    return _gameOver;
+  };
+
+  return {
+    startGame,
+    resetGame,
+    startNextRound,
+    getCurrentPlayerMarker,
+    isGameOver,
+  };
 })();
 
 const renderer = (() => {
