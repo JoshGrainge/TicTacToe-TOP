@@ -2,8 +2,7 @@
 //----- array of squares
 
 const gameBoard = (() => {
-  const _tiles = [];
-  _tiles.length = 9;
+  let _tiles = Array(9).fill(null);
 
   const isTileEmpty = (index) => {
     return _tiles[index] == null;
@@ -14,8 +13,7 @@ const gameBoard = (() => {
   };
 
   const clearTiles = () => {
-    _tiles = [];
-    _tiles.length = 9;
+    _tiles = Array(9).fill(null);
   };
 
   const getTiles = () => {
@@ -85,6 +83,35 @@ const gameLogic = ((p1, p2) => {
 
   // TODO check if there are 3 markers in a line
   const _checkWinCondition = () => {
+    let x = _currentPlayer.getMarker();
+    const tiles = gameBoard.getTiles();
+
+    // Check rows
+    for (let i = 0; i < tiles.length; i += 3) {
+      if (!tiles[i]) continue;
+
+      if (tiles[i] === tiles[i + 1] && tiles[i + 1] == tiles[i + 2]) {
+        return true;
+      }
+    }
+
+    // Check columns
+    for (let i = 0; i < 3; i++) {
+      if (!tiles[i]) continue;
+
+      if (tiles[i] === tiles[i + 3] && tiles[i + 3] === tiles[i + 6]) {
+        return true;
+      }
+    }
+
+    // Check diagonal
+    if (tiles[0]) {
+      if (tiles[0] === tiles[4] && tiles[4] === tiles[8]) return true;
+    }
+    if (tiles[2]) {
+      if (tiles[2] === tiles[4] && tiles[4] === tiles[6]) return true;
+    }
+
     return false;
   };
 
@@ -94,7 +121,8 @@ const gameLogic = ((p1, p2) => {
     }
 
     // Checks to see if either current player has won
-    if (_checkWinCondition) {
+    if (_checkWinCondition()) {
+      console.log("WON");
     }
 
     _alternatePlayers();
