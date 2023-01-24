@@ -1,3 +1,25 @@
+const startBtn = document.querySelector(".start-btn");
+const resetBtn = document.querySelector(".reset-btn");
+
+startBtn.addEventListener("click", () => {
+  let p1Name = document.querySelector(".p1-name").value;
+  let p2Name = document.querySelector(".p2-name").value;
+
+  gameLogic.startGame(Player(p1Name, "X"), Player(p2Name, "O"));
+});
+
+const grids = document.querySelectorAll(".grid");
+grids.forEach((grid) =>
+  grid.addEventListener("click", (e) => {
+    let index = parseInt(e.target.dataset.index);
+    if (gameBoard.isTileEmpty(index)) {
+      gameBoard.markTile(index, gameLogic.getCurrentPlayerMarker());
+      gameLogic.startNextRound();
+      renderer.renderScreen(gameBoard.getTiles());
+    }
+  })
+);
+
 const gameBoard = (() => {
   let _tiles = Array(9).fill(null);
 
@@ -31,24 +53,9 @@ const Player = (name, marker) => {
   return { getName, getMarker };
 };
 
-const grids = document.querySelectorAll(".grid");
-grids.forEach((grid) =>
-  grid.addEventListener("click", (e) => {
-    let index = parseInt(e.target.dataset.index);
-    if (gameBoard.isTileEmpty(index)) {
-      gameBoard.markTile(index, gameLogic.getCurrentPlayerMarker());
-      gameLogic.startNextRound();
-      renderer.renderScreen(gameBoard.getTiles());
-    }
-  })
-);
-
-let playerOne = Player("Josh", "X");
-let playerTwo = Player("Max", "O");
-
-const gameLogic = ((p1, p2) => {
-  let playerOne = p1;
-  let playerTwo = p2;
+const gameLogic = (() => {
+  let playerOne;
+  let playerTwo;
   let _currentPlayer = playerOne;
 
   let roundCount = 1;
@@ -96,6 +103,17 @@ const gameLogic = ((p1, p2) => {
     console.log(winMessage);
   };
 
+  const startGame = (p1, p2) => {
+    playerOne = p1;
+    playerTwo = p2;
+
+    _currentPlayer = playerOne;
+  };
+
+  const resetGame = () => {
+    _currentPlayer = playerOne;
+  };
+
   const startNextRound = () => {
     // No more spaces, noone wins
     if (roundCount++ >= maxRounds) {
@@ -104,7 +122,7 @@ const gameLogic = ((p1, p2) => {
 
     // Checks to see if either current player has won
     if (_checkWinCondition()) {
-      _displayWinScreen(`${_currentPlayer.name} WINS`);
+      _displayWinScreen(`${_currentPlayer.getName()} WINS`);
     }
 
     _alternatePlayers();
@@ -114,8 +132,8 @@ const gameLogic = ((p1, p2) => {
     return _currentPlayer.getMarker();
   };
 
-  return { startNextRound, getCurrentPlayerMarker };
-})(playerOne, playerTwo);
+  return { startGame, resetGame, startNextRound, getCurrentPlayerMarker };
+})();
 
 const renderer = (() => {
   const renderScreen = (array) => {
