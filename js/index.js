@@ -15,13 +15,14 @@ const gameBoard = (() => {
 
   const clearTiles = () => {
     _tiles = [];
+    _tiles.length = 9;
   };
 
-  const getAllTilesForTesting = () => {
+  const getTiles = () => {
     return _tiles;
   };
 
-  return { isTileEmpty, markTile, clearTiles, getAllTilesForTesting };
+  return { isTileEmpty, markTile, clearTiles, getTiles };
 })();
 
 const Player = (name, marker) => {
@@ -62,6 +63,7 @@ grids.forEach((grid) =>
     if (gameBoard.isTileEmpty(index)) {
       gameBoard.markTile(index, gameLogic.getCurrentPlayerMarker());
       gameLogic.startNextRound();
+      renderer.renderScreen(gameBoard.getTiles());
     }
   })
 );
@@ -104,3 +106,13 @@ const gameLogic = ((p1, p2) => {
 
   return { startNextRound, getCurrentPlayerMarker };
 })(playerOne, playerTwo);
+
+const renderer = (() => {
+  const renderScreen = (array) => {
+    for (let i = 0; i < grids.length; i++) {
+      grids[i].textContent = array[i];
+    }
+  };
+
+  return { renderScreen };
+})();
