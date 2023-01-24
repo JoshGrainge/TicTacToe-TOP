@@ -1,6 +1,3 @@
-// Gameboard
-//----- array of squares
-
 const gameBoard = (() => {
   let _tiles = Array(9).fill(null);
 
@@ -34,26 +31,6 @@ const Player = (name, marker) => {
   return { getName, getMarker };
 };
 
-// Player factory
-//----- marker string
-//----- name string
-
-// Game logic
-//----- _player references
-//----- _current player
-//----- _board
-//----- _alternatePlayers()
-//----- _checkWin()
-//----- _displayWinScreen()
-//----- playRound()
-//----- resetBoard()
-
-// playRound()
-//-----
-
-// Assign all grid squares an event listener of click for place marker
-//----- if element is empty place marker then finish round logic
-
 const grids = document.querySelectorAll(".grid");
 grids.forEach((grid) =>
   grid.addEventListener("click", (e) => {
@@ -81,7 +58,7 @@ const gameLogic = ((p1, p2) => {
     _currentPlayer = _currentPlayer === playerOne ? playerTwo : playerOne;
   };
 
-  // TODO check if there are 3 markers in a line
+  // TODO refactor this to be more effcient
   const _checkWinCondition = () => {
     let x = _currentPlayer.getMarker();
     const tiles = gameBoard.getTiles();
@@ -115,14 +92,19 @@ const gameLogic = ((p1, p2) => {
     return false;
   };
 
+  const _displayWinScreen = (winMessage) => {
+    console.log(winMessage);
+  };
+
   const startNextRound = () => {
     // No more spaces, noone wins
-    if (++roundCount >= maxRounds) {
+    if (roundCount++ >= maxRounds) {
+      _displayWinScreen("No one wins");
     }
 
     // Checks to see if either current player has won
     if (_checkWinCondition()) {
-      console.log("WON");
+      _displayWinScreen(`${_currentPlayer.name} WINS`);
     }
 
     _alternatePlayers();
