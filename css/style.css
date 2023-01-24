@@ -1,3 +1,14 @@
+/* Header section */
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Grid section */
+
 .grid-container {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
