@@ -74,11 +74,29 @@ const gameLogic = ((p1, p2) => {
   let playerTwo = p2;
   let _currentPlayer = playerOne;
 
+  let roundCount = 1;
+  const maxRounds = 9;
+
   const _alternatePlayers = () => {
     _currentPlayer = _currentPlayer === playerOne ? playerTwo : playerOne;
   };
 
-  const startNextRound = () => {};
+  // TODO check if there are 3 markers in a line
+  const _checkWinCondition = () => {
+    return false;
+  };
+
+  const startNextRound = () => {
+    // No more spaces, noone wins
+    if (++roundCount >= maxRounds) {
+    }
+
+    // Checks to see if either current player has won
+    if (_checkWinCondition) {
+    }
+
+    _alternatePlayers();
+  };
 
   const getCurrentPlayerMarker = () => {
     return _currentPlayer.getMarker();
