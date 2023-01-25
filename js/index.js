@@ -1,5 +1,6 @@
 const startBtn = document.querySelector(".start-btn");
-const resetBtn = document.querySelector(".reset-btn");
+// const resetBtn = document.querySelector(".reset-btn");
+const resetBtns = document.querySelectorAll(".reset-btn");
 
 startBtn.addEventListener("click", () => {
   let p1Name = document.querySelector(".p1-name").value;
@@ -8,11 +9,13 @@ startBtn.addEventListener("click", () => {
   gameLogic.startGame(Player(p1Name, "X"), Player(p2Name, "O"));
 });
 
-resetBtn.addEventListener("click", () => {
-  gameBoard.clearTiles();
-  gameLogic.resetGame();
-  renderer.renderScreen(gameBoard.getTiles());
-});
+resetBtns.forEach((btn) =>
+  btn.addEventListener("click", () => {
+    gameBoard.clearTiles();
+    gameLogic.resetGame();
+    renderer.renderScreen(gameBoard.getTiles());
+  })
+);
 
 const grids = document.querySelectorAll(".grid");
 grids.forEach((grid) =>
@@ -107,10 +110,6 @@ const gameLogic = (() => {
     return false;
   };
 
-  const _displayWinScreen = (winMessage) => {
-    console.log(winMessage);
-  };
-
   const startGame = (p1, p2) => {
     playerOne = p1;
     playerTwo = p2;
@@ -122,19 +121,20 @@ const gameLogic = (() => {
     _currentPlayer = playerOne;
     roundCount = 1;
 
+    renderer.hideModal();
     _gameOver = false;
   };
 
   const startNextRound = () => {
     // No more spaces, noone wins
     if (roundCount++ >= maxRounds) {
-      _displayWinScreen("No one wins");
+      renderer.showModal("No one wins");
       _gameOver = true;
     }
 
     // Checks to see if either current player has won
     if (_checkWinCondition()) {
-      _displayWinScreen(`${_currentPlayer.getName()} WINS`);
+      renderer.showModal(`${_currentPlayer.getName()} WINS`);
       _gameOver = true;
     }
 
@@ -158,12 +158,29 @@ const gameLogic = (() => {
   };
 })();
 
-const renderer = (() => {
+const renderer = ((doc) => {
+  const _document = doc;
+
+  const modalContainerClass = ".modal-container";
+  const modalClass = ".modal";
+  const modalTextClass = ".game-over-text";
+
   const renderScreen = (array) => {
     for (let i = 0; i < grids.length; i++) {
       grids[i].textContent = array[i];
     }
   };
 
-  return { renderScreen };
-})();
+  const hideModal = () => {
+    _document.querySelector(modalContainerClass).classList.remove("active");
+    _document.querySelector(modalClass).classList.remove("active");
+  };
+
+  const showModal = (gameOverText) => {
+    _document.querySelector(modalContainerClass).classList.add("active");
+    _document.querySelector(modalClass).classList.add("active");
+    _document.querySelector(modalTextClass).textContent = gameOverText;
+  };
+
+  return { renderScreen, hideModal, showModal };
+})(document);
