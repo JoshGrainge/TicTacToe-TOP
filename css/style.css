@@ -126,6 +126,8 @@ button:active {
   background-color: var(--modal-color);
 }
 
+/* TODO make modal scale up when active over a transition time */
+/* Tried to use transition-duration for this but wasn't working for some reason */
 .modal.active {
 }
 

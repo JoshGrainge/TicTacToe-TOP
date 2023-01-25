@@ -1,5 +1,4 @@
 const startBtn = document.querySelector(".start-btn");
-// const resetBtn = document.querySelector(".reset-btn");
 const resetBtns = document.querySelectorAll(".reset-btn");
 
 startBtn.addEventListener("click", () => {
@@ -126,13 +125,11 @@ const gameLogic = (() => {
   };
 
   const startNextRound = () => {
-    // No more spaces, noone wins
     if (roundCount++ >= maxRounds) {
       renderer.showModal("No one wins");
       _gameOver = true;
     }
 
-    // Checks to see if either current player has won
     if (_checkWinCondition()) {
       renderer.showModal(`${_currentPlayer.getName()} WINS!`);
       _gameOver = true;
