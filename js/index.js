@@ -134,7 +134,7 @@ const gameLogic = (() => {
 
     // Checks to see if either current player has won
     if (_checkWinCondition()) {
-      renderer.showModal(`${_currentPlayer.getName()} WINS`);
+      renderer.showModal(`${_currentPlayer.getName()} WINS!`);
       _gameOver = true;
     }
 

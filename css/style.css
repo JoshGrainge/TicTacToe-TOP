@@ -12,6 +12,12 @@
 
   --modal-background: rgba(0, 0, 0, 0.25);
   --modal-color: #fff;
+
+  --grid-cell-color: rgb(192, 192, 192);
+
+  --layout-width: 500px;
+
+  margin: 0;
 }
 
 body {
@@ -25,21 +31,21 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   gap: 25px;
+
+  padding: 10px 0;
 
   margin-bottom: 25px;
 }
 
 .player-section {
-  width: 500px;
+  width: var(--layout-width);
   display: flex;
   justify-content: space-between;
-  gap: 50px;
 }
 
 .player-section input {
-  height: 25px;
+  height: 30px;
   border-radius: 5px;
   border: 0;
   padding: 5px;
@@ -48,6 +54,10 @@ header {
 .player-one,
 .player-two {
   text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .button-container {
@@ -98,6 +108,8 @@ button:active {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  transition-duration: 1s;
 }
 
 .modal {
@@ -112,27 +124,36 @@ button:active {
 
   border-radius: 10px;
   background-color: var(--modal-color);
-
-  transform: scale(0);
-  transition-duration: 0.5s;
 }
 
 .modal.active {
-  transform: scale(1);
+}
+
+.modal > button {
+  width: 50%;
 }
 
 /* Grid section */
+
+.grid-flex-container {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
 
 .grid-container {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   gap: 10px;
 
-  width: 500px;
-  height: 500px;
+  width: var(--layout-width);
+  height: var(--layout-width);
 }
 
 .grid {
-  background-color: gray;
+  background-color: var(--grid-cell-color);
   text-align: center;
+
+  border-radius: 10px;
 }
